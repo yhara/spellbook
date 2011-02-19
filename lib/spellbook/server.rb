@@ -105,5 +105,12 @@ module SpellBook
       redirect "/spellbook/apps/"
     end
     
+    # apps#stop
+    get '/spellbook/apps/:id/stop' do
+      @app = find_app(params[:id])
+      @app.process.stop
+      redirect "/spellbook/apps/"
+    end
+    
   end
 end
