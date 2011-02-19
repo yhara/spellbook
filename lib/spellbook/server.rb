@@ -1,3 +1,4 @@
+require 'pathname'
 require 'spellbook'
 require 'sinatra/base'
 require 'slim'
@@ -14,13 +15,11 @@ end
 
 module SpellBook
   class Server < Sinatra::Base
-    get '/' do
-      slim <<-EOD
-h1 SpellBook
+    here = Pathname(__FILE__).dirname
+    set :views, (here + "views").to_s
 
-p
-  | hi
-      EOD
+    get '/' do
+      slim :index
     end
   end
 end
