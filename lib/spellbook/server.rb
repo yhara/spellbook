@@ -98,19 +98,11 @@ module SpellBook
     get '/spellbook/apps/:id/start' do
       @app = find_app(params[:id])
       @app.process = ChildProcess.build(@app.command, 
-                                        "--port", @app.port,
+                                        "--port", @app.port.to_s,
                                         "--prefix", @app.name)
 
-      p @app.process
-      #@app.process.io.inherit!
       @app.process.start
-      p @app.process
-      3.times do |i|
-        p 1
-        sleep 1
-      end
-      #redirect "/spellbook/apps/"
-      render :apps_index
+      redirect "/spellbook/apps/"
     end
     
   end
