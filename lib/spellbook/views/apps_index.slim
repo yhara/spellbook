@@ -5,22 +5,33 @@ table
     th Name
     th Port
     th Command
+    th State
     th Operation
 
-  - db[:apps].each do |name, app|
+  - db[:apps].each do |app|
     tr
       td 
-        = app[:name]
+        - if app.running?
+          a href="http://localhost:#{app.port}/#{app.name}/"
+            = app.name
+        - else
+          = app.name
       td
-        = app[:port]
+        = app.port
       td
-        = app[:command]
+        = app.command
       td
-        a href="/spellbook/apps/#{app[:name]}/edit"
+        = app.running?
+      td
+        a href="/spellbook/apps/#{app.name}/edit"
           | edit
         '
-        a href="/spellbook/apps/#{app[:name]}/start"
-          | start
+        - if app.running?
+          a href="/spellbook/apps/#{app.name}/stop"
+            | stop
+        - else
+          a href="/spellbook/apps/#{app.name}/start"
+            | start
 
 
 p

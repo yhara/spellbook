@@ -1,6 +1,7 @@
 h2 Edit app
 
-form action="/spellbook/apps?_method=PUT" method="POST"
+form action="/spellbook/apps/#{@app.name}" method="POST"
+  input type="hidden" name="_method" value="PUT"
   dl
     dt Name
     dl 
