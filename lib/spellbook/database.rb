@@ -4,38 +4,30 @@ module SpellBook
   class Database
     extend Forwardable
 
-    def initialize(path)
+    def initialize(path, default)
       @path = path
-      @data = load_data
+      @data = load_data(default)
       super(@data)
     end
 
-    def_delegators :@data, :[], :each
+    def_delegators :@data, :[], :[]=, :each
 
     def save_data
       File.open(@path, "wb"){|f|
         Marshal.dump(@data, f)
       }
     end
-
-    def []=(k, v)
-      @data[k] = v
-      save_data
-    end
+    alias save save_data
 
     private
 
-    def default_data
-      {}
-    end
-
-    def load_data
+    def load_data(default={})
       if File.exist?(@path)
         File.open(@path){|f|
           Marshal.load(f)
         }
       else
-        default_data
+        default
       end
     end
 

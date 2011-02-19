@@ -1,0 +1,22 @@
+h1 SpellBook
+
+table
+  tr
+    th Name
+    th Port
+    th Command
+
+  - db[:apps].each do |name, app|
+    tr
+      td 
+        = app[:name]
+      td
+        = app[:port]
+      td
+        = app[:command]
+
+
+p
+  a href="/spellbook/apps/new"
+    | new
+    
