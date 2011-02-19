@@ -1,6 +1,8 @@
 require 'pathname'
 require 'sinatra/base'
 require 'slim'
+require 'hashie/mash'
+require 'childprocess'
 
 require 'spellbook/database'
 
@@ -60,6 +62,31 @@ module SpellBook
 
       redirect "/spellbook/apps/"
     end
+    
+    # apps#edit
+    get '/spellbook/apps/:name/edit' do
+      @app = Hashie::Mash.new(db[:apps][params[:name]])
+      slim :apps_edit
+    end
+    
+    # apps#update
+    put '/spellbook/apps/:name' do
+      app = {
+        :name => params[:name],
+        :port => params[:port],
+        :command => params[:command],
+      }
+      db[:apps][params[:name]] = app
+      db.save
+
+      redirect "/spellbook/apps/"
+    end
+    
+    # apps#start
+    get '/spellbook/apps/:name/start' do
+      params[:name]
+    end
+
     
   end
 end

@@ -5,6 +5,7 @@ table
     th Name
     th Port
     th Command
+    th Operation
 
   - db[:apps].each do |name, app|
     tr
@@ -14,6 +15,12 @@ table
         = app[:port]
       td
         = app[:command]
+      td
+        a href="/spellbook/apps/#{app[:name]}/edit"
+          | edit
+        '
+        a href="/spellbook/apps/#{app[:name]}/start"
+          | start
 
 
 p

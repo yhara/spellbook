@@ -1,4 +1,22 @@
-h1 SpellBook
+h2 Edit app
 
-p
-  | hello
+form action="/spellbook/apps?_method=PUT" method="POST"
+  dl
+    dt Name
+    dl 
+      input type="text" name="name" value=(@app.name)
+
+    dt Port
+    dl 
+      input type="text" name="port" value=(@app.port)
+
+    dt Command
+    dl 
+      input type="text" name="command" size="120" value=(@app.command)
+
+    dt 
+    dl
+      input type="submit" value="save"
+      
+
+
