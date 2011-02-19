@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'spellbook/server'
+
+SpellBook::Server.run! :host => 'localhost', :port => 1357

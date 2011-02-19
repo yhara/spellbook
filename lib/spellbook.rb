@@ -1,0 +1,2 @@
+module SpellBook
+end
