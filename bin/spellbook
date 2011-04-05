@@ -2,4 +2,4 @@
 
 require 'spellbook/server'
 
-SpellBook::Server.run! :host => 'localhost', :port => 1357
+SpellBook::Server.run! :host => 'localhost', :port => 3017
