@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'spellbook/server'
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require 'spellbook'
 
 SpellBook::Server.run! :host => 'localhost', :port => 3017

@@ -8,10 +8,10 @@ table
     th State
     th Operation
 
-  - db[:apps].each do |app|
+  - @apps.each do |app|
     tr
       td 
-        - if app.running?
+        - if running?(app)
           a href="http://localhost:#{app.port}/#{app.name}/"
             = app.name
         - else
@@ -21,12 +21,12 @@ table
       td
         = app.command
       td
-        = app.running?
+        = running?(app)
       td
         a href="/spellbook/apps/#{app.name}/edit"
           | edit
         '
-        - if app.running?
+        - if running?(app)
           a href="/spellbook/apps/#{app.name}/stop"
             | stop
         - else

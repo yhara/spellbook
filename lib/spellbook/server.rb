@@ -3,54 +3,27 @@ require 'sinatra/base'
 require 'slim'
 require 'childprocess'
 
-require 'spellbook/database'
-
-module Sinatra
-  module Templates
-    unless defined? slim
-      def slim(template, options={}, locals={})
-        render :slim, template, options, locals
-      end
-    end
-  end
-end
-
 module SpellBook
-  class App
-    def initialize(params)
-      @name, @port, @command = params[:name], params[:port], params[:command]
-      @process = nil
-    end
-    attr_accessor :name, :port, :command
-    attr_accessor :process
-
-    def running?
-      @process and @process.alive?
-    end
-  end
 
   class Server < Sinatra::Base
     use Rack::MethodOverride
 
-    here = Pathname(__FILE__).dirname
-    set :views, (here + "views").to_s
+    cattr_accessor :processes
 
-    DATA_PATH = File.expand_path("~/.spellbook.marshal")
+    DATA_PATH = File.expand_path("~/.spellbook.db")
     configure do
-      set :db, Database.new(DATA_PATH, {
-        :apps => []
-      })
+      here = Pathname(__FILE__).dirname
+      set :views, (here + "views").to_s
 
-      set :processes, {}
+      set :database, "sqlite://#{DATA_PATH}"
+
+      Server.processes = {}
     end
 
     helpers do
-      def db
-        settings.db
-      end
-
-      def find_app(name)
-        db[:apps].find{|app| app.name == name}
+      def running?(app)
+        process = Server.processes[app.id] 
+        process and process.alive?
       end
     end
 
@@ -61,6 +34,7 @@ module SpellBook
 
     # apps#index
     get '/spellbook/apps/?' do
+      @apps = App.all
       slim :apps_index
     end
 
@@ -71,45 +45,57 @@ module SpellBook
 
     # apps#create
     post '/spellbook/apps/?' do
-      db[:apps] << App.new(params)
-      db.save
+      App.new(params).save!
 
       redirect "/spellbook/apps/"
     end
     
     # apps#edit
-    get '/spellbook/apps/:id/edit' do
-      @app = find_app(params[:id])
+    get '/spellbook/apps/:name/edit' do
+      @app = App.find_by_name(params[:name])
       slim :apps_edit
     end
     
     # apps#update
-    put '/spellbook/apps/:id' do
-      @app = find_app(params[:id])
+    put '/spellbook/apps/:name' do
+      app = App.find_by_name(params[:name])
       app.name = params[:name]
       app.port = params[:port]
       app.command = params[:command]
-      db.save
+      app.save!
 
       redirect "/spellbook/apps/"
     end
     
     # apps#start
-    get '/spellbook/apps/:id/start' do
-      @app = find_app(params[:id])
-      @app.process = ChildProcess.build(@app.command, 
-                                        "--port", @app.port.to_s,
-                                        "--prefix", @app.name)
+    get '/spellbook/apps/:name/start' do
+      app = App.find_by_name(params[:name])
 
-      @app.process.start
+      process = ChildProcess.build(*app.command.split, 
+                                   "--port", app.port.to_s,
+                                   "--prefix", "/#{app.name}")
+      Server.processes[app.id] = process
+
+      process.io.inherit!
+      process.start
+
       redirect "/spellbook/apps/"
     end
     
     # apps#stop
-    get '/spellbook/apps/:id/stop' do
-      @app = find_app(params[:id])
-      @app.process.stop
+    get '/spellbook/apps/:name/stop' do
+      app = App.find_by_name(params[:name])
+
+      process = Server.processes[app.id]
+      process.stop if process
+
       redirect "/spellbook/apps/"
+    end
+
+    # proxy
+    get '/*' do
+      #TODO
+      pass
     end
     
   end
