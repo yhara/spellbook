@@ -1,0 +1,21 @@
+! doctype html
+html
+  head
+    meta charset="utf-8"
+    title Spellbook
+
+  body
+    #header
+      h1
+        a href="/"
+          | Spellbook
+
+    #content
+      == yield
+
+    #footer
+      div
+        a href="http://github.com/yhara/spellbook/"
+          | Spellbook
+        = " #{SpellBook::VERSION} #{settings.environment} mode"
+
