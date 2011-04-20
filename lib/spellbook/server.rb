@@ -38,7 +38,8 @@ module SpellBook
 
     # top
     get '/' do
-      slim :top
+      #slim :top
+      redirect '/spellbook/apps'
     end
 
     # apps#index

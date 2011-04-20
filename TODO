@@ -10,8 +10,8 @@ middle
 
 low
 - generate random port number
-- redirect / to /spellbook/apps
 - research for "on", and "checked" in Slim
 - handle 404
 - handle ActiveRecord errors
 - dry up #new and #edit
+- how to make shotgun to reload bin/*
