@@ -68,9 +68,7 @@ module SpellBook
     # apps#update
     put '/spellbook/apps/:name' do
       app = App.find_by_name(params[:name])
-      app.name = params[:name]
-      app.port = params[:port]
-      app.command = params[:command]
+      app.update_attributes(app_params(params))
       app.save!
 
       redirect "/spellbook/apps/"

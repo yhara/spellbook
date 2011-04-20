@@ -1,5 +1,17 @@
-- remove hardcoded 'development.db'
-- option to specify ~/
-- #proxy for new and edit
-- handle 404
+inbox
 - rename to Spellbook?
+
+high
+- remove hardcoded 'development.db'
+
+middle 
+- option to specify ~/
+- add default app for demonstration
+
+low
+- generate random port number
+- redirect / to /spellbook/apps
+- research for "on", and "checked" in Slim
+- handle 404
+- handle ActiveRecord errors
+- dry up #new and #edit
