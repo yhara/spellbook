@@ -14,6 +14,16 @@ form action="/spellbook/apps" method="POST"
     dl 
       input type="text" name="command" size="120"
 
+    p
+      input type="checkbox" name="proxy" checked="1"
+      | Enable proxy by Spellbook
+      small
+        br
+        | (With this option, you can access to this application
+          using port 
+        = settings.port
+        | . The application must support --prefix option)
+
     dt 
     dl
       input type="submit" value="save"

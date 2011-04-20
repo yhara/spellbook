@@ -25,6 +25,15 @@ module SpellBook
         process = Server.processes[app.id] 
         process and process.alive?
       end
+
+      def app_params(params)
+        {
+          :name => params[:name],
+          :port => params[:port].to_i,
+          :command => params[:command],
+          :proxy => (params[:proxy] == "on")
+        }
+      end
     end
 
     # top
@@ -45,7 +54,7 @@ module SpellBook
 
     # apps#create
     post '/spellbook/apps/?' do
-      App.new(params).save!
+      App.new(app_params(params)).save!
 
       redirect "/spellbook/apps/"
     end

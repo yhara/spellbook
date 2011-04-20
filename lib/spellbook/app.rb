@@ -2,7 +2,7 @@ require 'sinatra/activerecord'
 
 module SpellBook
   class App < ActiveRecord::Base
-    validates_presence_of :name, :port, :command, :proxy
+    validates_presence_of :name, :port, :command
     validates_uniqueness_of :name, :port
     validates_numericality_of :port
 
@@ -14,4 +14,5 @@ module SpellBook
       end
     end
   end
+  #require 'irb'; IRB.start
 end
