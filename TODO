@@ -1,0 +1,5 @@
+- remove hardcoded 'development.db'
+- option to specify ~/
+- #proxy for new and edit
+- handle 404
+- rename to Spellbook?
