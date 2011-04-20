@@ -93,9 +93,14 @@ module SpellBook
     end
 
     # proxy
-    get '/*' do
-      #TODO
-      pass
+    get '/:name/*' do
+      app = App.find_by_name(params[:name])
+
+      if app
+        SpellBook::Proxy.new(app.port).call(request.env)
+      else
+        pass  # shows sinatra's default error page
+      end
     end
     
   end

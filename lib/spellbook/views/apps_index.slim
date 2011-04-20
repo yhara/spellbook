@@ -5,6 +5,7 @@ table
     th Name
     th Port
     th Command
+    th Proxy
     th State
     th Operation
 
@@ -12,7 +13,7 @@ table
     tr
       td 
         - if running?(app)
-          a href="http://localhost:#{app.port}/#{app.name}/"
+          a href="#{app.url}"
             = app.name
         - else
           = app.name
@@ -20,6 +21,8 @@ table
         = app.port
       td
         = app.command
+      td
+        = app.proxy
       td
         = running?(app)
       td
