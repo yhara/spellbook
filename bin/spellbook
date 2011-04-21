@@ -6,8 +6,8 @@ require 'slop'
 module SpellBook
 
   @@opts = Slop.parse(:help => true) do
-    on 'p', 'port', true, :as => :integer, :default => 3017
-    on 'e', 'environment', true, :default => "development"
+    on 'p', 'port', true, :as => :integer
+    on 'e', 'environment', true
 
     on 'v', 'version', 'Print the version' do
       puts "Spellbook version #{SpellBook::VERSION}"

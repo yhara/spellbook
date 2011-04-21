@@ -11,8 +11,8 @@ module SpellBook
     cattr_accessor :processes
 
     configure do
-      set :port, SpellBook.opts[:port]
-      set :environment, SpellBook.opts[:environment]
+      set :port, SpellBook.opts[:port] || 3017
+      set :environment, SpellBook.opts[:environment] || "production"
     end
 
     configure :test do
