@@ -53,6 +53,11 @@ module SpellBook
       params.delete("_method")
     end
 
+    # css
+    get '/screen.css' do
+      sass :screen
+    end
+
     # top
     get '/' do
       #slim :top
