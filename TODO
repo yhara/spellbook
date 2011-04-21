@@ -1,17 +1,20 @@
-inbox
-- rename to Spellbook?
-
 high
-- remove hardcoded 'development.db'
+- option to specify ~/spellbook.db
 
 middle 
-- option to specify ~/
+- option to specify port
 - add default app for demonstration
+- remove h1 from views
 
 low
 - generate random port number
-- research for "on", and "checked" in Slim
+
+lower
 - handle 404
 - handle ActiveRecord errors
+
+lowest
+- move lib/spellbook/views to views/
 - dry up #new and #edit
-- how to make shotgun to reload bin/*
+- rename to Spellbook?
+

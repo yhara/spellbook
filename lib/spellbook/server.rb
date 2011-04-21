@@ -42,6 +42,12 @@ module SpellBook
       end
     end
 
+    before do
+      # Remove the _method param used for PUT and DELETE
+      # for ActiveRecord mass-assignment
+      params.delete("_method")
+    end
+
     # top
     get '/' do
       #slim :top

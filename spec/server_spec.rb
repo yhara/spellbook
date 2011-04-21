@@ -63,4 +63,36 @@ describe "Spellbook::Server" do
       App.first.proxy.should be_false
     end
   end
+
+  describe "GET apps#edit - PUT apps#update" do
+    before :each do
+      @app = App.new(
+        :name => "someapp",
+        :port => 12345,
+        :command => "ruby someapp.rb",
+      )
+    end
+
+    it "should update an app to proxy ON" do
+      @app.proxy = false
+      @app.save!
+
+      lambda {
+        visit '/spellbook/apps/someapp/edit'
+        check 'proxy'
+        click_button "save"
+      }.should change{ App.first.proxy }.from(false).to(true)
+    end
+
+    it "should update an app to proxy OFF" do
+      @app.proxy = true
+      @app.save!
+
+      lambda {
+        visit '/spellbook/apps/someapp/edit'
+        uncheck 'proxy'
+        click_button "save"
+      }.should change{ App.first.proxy }.from(true).to(false)
+    end
+  end
 end
