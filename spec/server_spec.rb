@@ -1,9 +1,10 @@
-$LOAD_PATH << "#{File.dirname __FILE__}/../lib"
-require 'spellbook'
-require 'rspec'
-require 'rack/test'
+require "#{File.dirname __FILE__}/spec_helper.rb"
 
 SpellBook::Server.set :environment, :test
+
+Capybara.app = SpellBook::Server
+
+App = SpellBook::App
 
 describe "Spellbook::Server" do
   include Rack::Test::Methods
@@ -12,7 +13,11 @@ describe "Spellbook::Server" do
     SpellBook::Server
   end
 
-  context "GET /" do
+  before :each do
+    App.destroy_all
+  end
+
+  describe "GET /" do
     it "should redirect to /spellbook/apps" do
       get '/'
       last_response.status.should == 302
@@ -20,29 +25,42 @@ describe "Spellbook::Server" do
     end
   end
 
-  context "GET apps#index" do
+  describe "GET apps#index" do
     it "should show list of apps" do
       get '/spellbook/apps'
       last_response.should be_ok
     end
   end
 
-  context "GET apps#new" do
-    it "should show the form" do
-      get '/spellbook/apps/new'
-      last_response.should be_ok
-    end
-  end
+  describe "GET apps#new - POST apps#create" do
+    it "should create an app with proxy ON" do
+      lambda {
+        visit '/spellbook/apps/new'
 
-  context "POST apps#create" do
-    it "should create an app" do
-      app_data = {
-        :name => "Sample app",
-        :port => 12345,
-        :proxy => "1",
-      }
-      post '/spellbook/apps/', app_data
-      last_response.should be_ok
+        fill_in 'name', :with => "Sample app"
+        fill_in 'port', :with => 12345
+        fill_in 'command', :with => "ruby someapp.rb"
+        check 'proxy'
+
+        click_button "save"
+      }.should change(App, :count).by 1
+
+      App.first.proxy.should be_true
+    end
+
+    it "should create an app with proxy OFF" do
+      lambda {
+        visit '/spellbook/apps/new'
+
+        fill_in 'name', :with => "Sample app"
+        fill_in 'port', :with => 12345
+        fill_in 'command', :with => "ruby someapp.rb"
+        uncheck 'proxy'
+
+        click_button "save"
+      }.should change(App, :count).by 1
+
+      App.first.proxy.should be_false
     end
   end
 end

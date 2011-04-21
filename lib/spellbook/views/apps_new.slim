@@ -15,7 +15,8 @@ form action="/spellbook/apps" method="POST"
       input type="text" name="command" size="120"
 
     p
-      input type="checkbox" name="proxy" checked="1"
+      input type="hidden" name="proxy" value="0"
+      input type="checkbox" name="proxy" value="1" checked=true
       | Enable proxy by Spellbook
       small
         br
