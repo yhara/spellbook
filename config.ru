@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift File.expand_path("lib", File.dirname(__FILE__))
+$LOAD_PATH.unshift "#{File.dirname __FILE__}/lib"
 
-require 'spellbook/server'
+require 'spellbook'
 run SpellBook::Server
