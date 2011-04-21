@@ -10,12 +10,23 @@ module SpellBook
 
     cattr_accessor :processes
 
-    DATA_PATH = File.expand_path("~/.spellbook.db")
+    configure :test do
+      set :database_path, "#{File.dirname __FILE__}/../../db/test.db"
+    end
+
+    configure :development do
+      set :database_path, "#{File.dirname __FILE__}/../../db/development.db"
+    end
+
+    configure :production do
+      set :database_path, File.expand_path("~/.spellbook.db")
+    end
+
     configure do
       here = Pathname(__FILE__).dirname
       set :views, (here + "views").to_s
 
-      set :database, "sqlite://#{DATA_PATH}"
+      set :database, "sqlite://#{settings.database_path}"
 
       Server.processes = {}
     end
