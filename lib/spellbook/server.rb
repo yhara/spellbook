@@ -16,6 +16,10 @@ module SpellBook
 
     configure :development do
       set :database_path, "#{File.dirname __FILE__}/../../db/development.db"
+
+      require 'sinatra/reloader'
+      register Sinatra::Reloader
+      #also_reload "lib/**/*.rb"
     end
 
     configure :production do

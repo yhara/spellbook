@@ -4,15 +4,20 @@ gem 'sinatra'
 gem 'sinatra-activerecord'
 gem 'slim'
 gem 'sass'
+gem 'childprocess'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3'
 
 group :development do
-  gem 'shotgun'
+  gem 'sinatra-reloader'
   gem 'thin'
+end
+
+group :test do
+  gem 'rspec'
 end
 
 # Use unicorn as the web server
