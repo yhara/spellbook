@@ -10,6 +10,11 @@ module SpellBook
 
     cattr_accessor :processes
 
+    configure do
+      set :port, SpellBook.opts[:port]
+      set :environment, SpellBook.opts[:environment]
+    end
+
     configure :test do
       set :database_path, "#{File.dirname __FILE__}/../../db/test.db"
     end
