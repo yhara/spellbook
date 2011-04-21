@@ -5,6 +5,7 @@ gem 'sinatra-activerecord'
 gem 'slim'
 gem 'sass'
 gem 'childprocess'
+gem 'slop'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

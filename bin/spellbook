@@ -1,6 +1,22 @@
 #!/usr/bin/env ruby
-
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require 'spellbook'
 
-SpellBook::Server.run! :host => 'localhost', :port => 3017
+require 'slop'
+
+opts = Slop.parse(:help => true) do
+  on 'p', 'port', true, :as => :integer, :default => 3017
+  on 'e', 'environment', true, :default => "development"
+
+  on 'v', 'version', 'Print the version' do
+    puts "Spellbook version #{SpellBook::VERSION}"
+    exit
+  end
+end
+
+SpellBook::Server.configure do |c|
+  c.set :port, opts[:port]
+  c.set :environment, opts[:environment]
+end
+
+SpellBook::Server.run! :host => 'localhost'

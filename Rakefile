@@ -1,8 +1,8 @@
 require 'sinatra/activerecord'
 require 'sinatra/activerecord/rake'
 
-desc "start server in port 3017"
+desc "start server in port 3018"
 task :server do
-  sh "shotgun -I./lib -e 'load \"./bin/spellbook\"'"
+  sh "ruby bin/spellbook -p 3018 -e development"
 end
 

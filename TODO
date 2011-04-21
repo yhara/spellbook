@@ -2,7 +2,6 @@ high
 - option to specify ~/spellbook.db
 
 middle 
-- option to specify port
 - add default app for demonstration
 - remove h1 from views
 
