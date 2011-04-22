@@ -1,0 +1,63 @@
+SpellBook
+=========
+
+SpellBook is a launcher for browser-based desktop apps.
+
+What's "browser-based"?
+-----------------------
+
+Browser-GUI apps are desktop apps made with Web technology
+like HTML, CSS and JavaScript.
+
+Why not GUI toolkits?
+---------------------
+
+There are many GUI libraries for Ruby, but I would like to
+write desktop apps in Sinatra (or Rails).
+
+Why do I need a launcher?
+-------------------------
+
+Browser-GUI apps work on web application frameworks and
+web server.
+When you have many Browser-GUI apps, it is difficult to
+remember all the port numbers.
+
+Install
+=======
+
+You need Ruby 1.8 or 1.9 and RubyGems.
+
+    $ gem i spellbook
+
+Usage
+=====
+
+    $ spellbook -h
+    $ spellbook
+
+Then open http://localhost:3017 in your browser.
+
+What SpellBook does
+===================
+
+* Launcher
+  * Register an app
+  * Start an app
+  * Stop an running app
+* Proxy
+  * Access to all the apps through one port number
+    * You don't need editing iptables everytime install new app
+
+What SpellBook does not
+-----------------------
+
+* Installing apps
+* Updating apps
+
+Contact
+=======
+
+https://github.com/yhara/spellbook
+
+http://twitter.com/yhara_en
