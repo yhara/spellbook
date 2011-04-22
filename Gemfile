@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'sinatra'
-gem 'sinatra-activerecord'
+gem 'sinatra', '>= 1.2'
+gem 'sinatra-activerecord', '0.1.3'
 gem 'slim'
 gem 'sass'
 gem 'childprocess'
