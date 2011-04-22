@@ -73,6 +73,11 @@ module SpellBook
         process = Server.processes[app.id] 
         process and process.alive?
       end
+
+      def find_app(name)
+        App.find_by_name(name) or
+          raise "Application named `#{name}' was not found."
+      end
     end
 
     before do
@@ -112,13 +117,13 @@ module SpellBook
     
     # apps#edit
     get '/spellbook/apps/:name/edit' do
-      @app = App.find_by_name(params[:name])
+      @app = find_app(params[:name])
       slim :apps_edit
     end
     
     # apps#update
     put '/spellbook/apps/:name' do
-      app = App.find_by_name(params[:name])
+      app = find_app(params[:name])
       app.update_attributes(params)
       app.save!
 
@@ -127,7 +132,7 @@ module SpellBook
     
     # apps#start
     get '/spellbook/apps/:name/start' do
-      app = App.find_by_name(params[:name])
+      app = find_app(params[:name])
 
       process = ChildProcess.build(*app.command.split, 
                                    "--port", app.port.to_s,
@@ -142,7 +147,7 @@ module SpellBook
     
     # apps#stop
     get '/spellbook/apps/:name/stop' do
-      app = App.find_by_name(params[:name])
+      app = find_app(params[:name])
 
       process = Server.processes[app.id]
       process.stop if process
@@ -152,13 +157,19 @@ module SpellBook
 
     # proxy
     get '/:name/*' do
-      app = App.find_by_name(params[:name])
+      app = find_app(params[:name])
 
       if app
         SpellBook::Proxy.new(app.port).call(request.env)
       else
         pass  # shows sinatra's default error page
       end
+    end
+
+    # exceptions
+    error do
+      @err = env["sinatra.error"]
+      slim :error
     end
     
   end

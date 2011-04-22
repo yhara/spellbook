@@ -11,12 +11,11 @@ low
 - 2 delete app
 
 lower
-- 2 handle 404
-- 2 handle ActiveRecord errors
 - 3 surpress ActiveRecord logs
 - 3 show app logs
 
 lowest
+- better error message
 - 1 move lib/spellbook/views to views/
 - 2 dry up #new and #edit
 - 1 rename to Spellbook?
