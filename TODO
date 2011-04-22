@@ -1,22 +1,23 @@
 high
-- option to specify ~/spellbook.db
+- 1 option to specify ~/spellbook.db
 
 middle 
-- add default app for demonstration
 - better css
-- inhibit editing while app is running?
+- 2 inhibit editing while app is running?
 
 low
-- prettier sample app
-- generate random port number
+- 2 prettier sample app
+- 2 generate random port number
+- 2 delete app
 
 lower
-- handle 404
-- handle ActiveRecord errors
-- surpress ActiveRecord logs
+- 2 handle 404
+- 2 handle ActiveRecord errors
+- 3 surpress ActiveRecord logs
+- 3 show app logs
 
 lowest
-- move lib/spellbook/views to views/
-- dry up #new and #edit
-- rename to Spellbook?
+- 1 move lib/spellbook/views to views/
+- 2 dry up #new and #edit
+- 1 rename to Spellbook?
 

@@ -1,38 +1,34 @@
 table
   tr
     th Name
-    th Port
+    th Switch
     th Command
-    th Proxy
-    th State
     th Operation
 
   - @apps.each do |app|
     tr
       td 
         - if running?(app)
-          a href="#{app.url}"
+          a href="#{app.url}" target="_blank"
             = app.name
         - else
           = app.name
-      td
-        = app.port
+      td 
+        - if running?(app)
+          | ON
+          '
+          a href="/spellbook/apps/#{app.name}/stop"
+            | OFF
+        - else
+          a href="/spellbook/apps/#{app.name}/start"
+            | ON
+          '
+          | OFF
       td
         = app.command
       td
-        = app.proxy
-      td
-        = running?(app)
-      td
         a href="/spellbook/apps/#{app.name}/edit"
           | edit
-        '
-        - if running?(app)
-          a href="/spellbook/apps/#{app.name}/stop"
-            | stop
-        - else
-          a href="/spellbook/apps/#{app.name}/start"
-            | start
 
 p
   a href="/spellbook/apps/new"
