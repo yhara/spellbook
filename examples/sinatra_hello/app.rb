@@ -1,5 +1,5 @@
 # Load RubyGems; You need these gems installed:
-#   $ sudo gem install sinatra slim slop
+#   $ sudo gem install sinatra slop
 require 'rubygems'
 
 #
@@ -8,7 +8,7 @@ require 'rubygems'
 
 # Slop is a handy library to parse command-line options.
 require 'slop'
-opts = Slop.parse!(:help => true) do
+$opts = Slop.parse!(:help => true) do
   on 'p', 'port', true,        :default => 8080, :as => :integer
   on      'prefix', true,      :default => ""
 end
@@ -18,96 +18,106 @@ end
 #
 
 require 'sinatra'
-# Slim is a indent-based template engine.
-# You can also use Haml, ERB, etc. instead.
-require 'slim'
 
 # Use the HTTP port specified with --port
-set :port, opts[:port]
+set :port, $opts[:port]
 
 # Top page
-
-get "#{opts[:prefix]}/" do
-  slim <<-EOD
-head
-  style
-    | body { margin-left: 20%; margin-right: 20%; }
-
-body
-  h1 Dice
-  div
-    = "[#{rand(6)+1}]"
-
-  div
-    a href="#{opts[:prefix]}/"
-      | roll again!
-
-  br
-  br
-  br
-
-  a href="#{opts[:prefix]}/whatsthis"
-    | What's this?
-
-  EOD
+get "#{$opts[:prefix]}/" do
+  @dice = rand(6) + 1
+  erb :index
 end
 
 # Help page
+get "#{$opts[:prefix]}/whatsthis" do
+  @proxy_url = "http://localhost:3017#{$opts[:prefix]}/whatsthis"
+  @real_url = "http://localhost:#{$opts[:port]}#{$opts[:prefix]}/whatsthis"
+  erb :help
+end
 
-get "#{opts[:prefix]}/whatsthis" do
-  slim <<-EOD
-head
-  style
-    | body { margin-left: 20%; margin-right: 20%; }
+# Views (embedded)
+
+__END__
+
+@@layout
+  <!DOCTYPE html>
+  <html>
+    <head>
+    <style>
+      body { margin-left: 20%; margin-right: 20%; }
       .box { border: 1px solid gray; padding: 1em; }
       dt { font-weight: bold; }
-body
-  h1
-    a href="#{opts[:prefix]}/"
-      | Dice
+    </style>
+    </head>
+    <body>
+      <h1>
+        <a href="<%= $opts[:prefix] %>/">
+          <font color="red">D</font><font color="blue">i</font><font color="orange">c</font><font color="green">e</font>
+        </a>
+      </h1>
 
-  h2 What's this?
-  div.box
-    p
-      | This is a sample application for Spellbook.
+      <%= yield %>
+    </body>
+  </html>
 
-  h2 How to make Spellbook apps
-  div.box
-    p   
-      | A Spellbook app is just a web application runs on localhost. You can make Spellbook apps with your favorite programming language!
+@@index
+  <p>
+  [
+    <% if @dice == 1 %>
+      <font color="red">1</font>
+    <% else %>
+      <%= @dice %>
+    <% end %>
+  ]
+  </p>
+  <a href="<%= $opts[:prefix] %>/">
+    Roll again!
+  </a>
+  <br><br><br>
+  <a href="<%= $opts[:prefix] %>/whatsthis">
+    What's this?
+  </a>
 
-    p 
-      | The only rule is that your app must take these options: --port and --prefix.
+@@help
+  <h2>What's this?</h2>
+  <div class="box">
+    <p>This is a sample application for Spellbook.</p>
+  </div>
 
-    dl
-      dt --port=XXX
-      dd
-        | HTTP port number.
+  <h2>How to make Spellbook apps</h2>
+  <div class="box">
+    <p>
+      A Spellbook app is just a web application runs on localhost.
+      You can make Spellbook apps with your favorite programming language!
+    </p>
+    <p>
+      The only rule is that your app must take these options:
+      --port and --prefix.
+    </p>
+    <dl>
+      <dt>--port=XXX</dt><dd>HTTP port number.</dd>
+      <dt>--prefix=YYY</dt><dd>Prefix included in url.</dd>
+    </dl>
+    <p>
+      When Spellbook invokes an app, it passes these options like this:
+    </p>
 
-      dt --prefix=YYY
-      dd
-        | Prefix included in url.
+    <pre>$ /some/where/yourapp --port=<%= $opts[:port] %> --prefix="<%= $opts[:prefix] %>"</pre>
 
-    p 
-      | When Spellbook invokes an app, it passes these options like this:
-
-    pre $ /some/where/yourapp --port=#{opts[:port]} --prefix="#{opts[:prefix]}"
-
-    p 
-      | Then, Spellbook acts like a proxy server.
-      br
-      ' The URL (
-      a href="http://localhost:3017#{opts[:prefix]}/whatsthis"
-        = "http://localhost:3017#{opts[:prefix]}/whatsthis"
-      '  )
-      br
-      ' is a proxy to
-      a href="http://localhost:#{opts[:port]}#{opts[:prefix]}/whatsthis"
-        = "http://localhost:#{opts[:port]}#{opts[:prefix]}/whatsthis"
-      | .
-
-    p
-      | This sample app is written in Ruby and Sinatra. See #{File.expand_path __FILE__} for details.
-  
-  EOD
-end
+    <p>
+      Then, Spellbook acts like a proxy server.<br>
+      This url (
+        <a href="<%= @proxy_url %>">
+          <%= @proxy_url %>
+        </a>
+      ) <br>
+      shows the content of
+        <a href="<%= @real_url %>">
+          <%= @real_url %>
+        </a>.
+    </p>
+    <p>
+      This sample app is written in Ruby and Sinatra.
+      See <%= File.expand_path __FILE__ %> for details.
+    </p>
+  </div>
