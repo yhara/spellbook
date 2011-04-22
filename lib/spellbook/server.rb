@@ -1,9 +1,13 @@
-require 'pathname'
 require 'sinatra/base'
 require 'slim'
 require 'childprocess'
 
 module SpellBook
+
+  def self.path_to(path)
+    top = File.expand_path("../../", File.dirname(__FILE__))
+    File.expand_path(path, top)
+  end
 
   class Server < Sinatra::Base
     use Rack::MethodOverride
@@ -17,11 +21,11 @@ module SpellBook
     end
 
     configure :test do
-      set :database_path, "#{File.dirname __FILE__}/../../db/test.db"
+      set :database_path, SpellBook.path_to("db/test.db")
     end
 
     configure :development do
-      set :database_path, "#{File.dirname __FILE__}/../../db/development.db"
+      set :database_path, SpellBook.path_to("db/development.db")
 
       require 'sinatra/reloader'
       register Sinatra::Reloader
@@ -29,14 +33,28 @@ module SpellBook
     end
 
     configure :production do
-      set :database_path, "~/.spellbook.db"
+      set :database_path, File.expand_path("~/.spellbook.db")
     end
 
     configure do
-      here = Pathname(__FILE__).dirname
-      set :views, (here + "views").to_s
+      set :views, SpellBook.path_to("lib/spellbook/views/")
 
-      set :database, "sqlite:/#{File.expand_path settings.database_path}"
+      set :database, "sqlite:/#{settings.database_path}"
+
+      if settings.environment == "production"
+        ActiveRecord::Migrator.migrate(SpellBook.path_to('db/migrate'))
+
+        if App.count == 0
+          puts "Registering sample app.."
+          app_path = SpellBook.path_to("examples/sinatra_hello/app.rb")
+          App.create!(
+            :name => "Sample app",
+            :port => 40000,
+            :command => "ruby #{app_path}",
+            :proxy => true
+          )
+        end
+      end
 
       Server.processes = {}
     end

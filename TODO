@@ -4,13 +4,16 @@ high
 middle 
 - add default app for demonstration
 - better css
+- inhibit editing while app is running?
 
 low
+- prettier sample app
 - generate random port number
 
 lower
 - handle 404
 - handle ActiveRecord errors
+- surpress ActiveRecord logs
 
 lowest
 - move lib/spellbook/views to views/
