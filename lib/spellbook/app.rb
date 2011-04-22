@@ -1,5 +1,3 @@
-require 'sinatra/activerecord'
-
 module SpellBook
   class App < ActiveRecord::Base
     validates_presence_of :name, :port, :command

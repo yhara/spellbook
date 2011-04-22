@@ -7,6 +7,7 @@ module SpellBook
 
   class Server < Sinatra::Base
     use Rack::MethodOverride
+    register Sinatra::ActiveRecordExtension
 
     cattr_accessor :processes
 
@@ -28,14 +29,14 @@ module SpellBook
     end
 
     configure :production do
-      set :database_path, File.expand_path("~/.spellbook.db")
+      set :database_path, "~/.spellbook.db"
     end
 
     configure do
       here = Pathname(__FILE__).dirname
       set :views, (here + "views").to_s
 
-      set :database, "sqlite://#{settings.database_path}"
+      set :database, "sqlite:/#{File.expand_path settings.database_path}"
 
       Server.processes = {}
     end
