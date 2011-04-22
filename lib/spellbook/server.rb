@@ -106,6 +106,10 @@ module SpellBook
 
     # apps#new
     get '/spellbook/apps/new' do
+      begin
+        @port = rand(10000) + 40000
+      end while App.find_by_port(@port)
+
       slim :apps_new
     end
 

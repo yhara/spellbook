@@ -4,8 +4,6 @@ high
 middle 
 
 low
-- 2 prettier sample app
-- 2 generate random port number
 - 2 delete app
   - running app shall not be deleted
 - 3 show app logs
