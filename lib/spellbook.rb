@@ -6,4 +6,3 @@ require 'sinatra/activerecord'
 
 require 'spellbook/proxy'
 require 'spellbook/app'
-require 'spellbook/server'

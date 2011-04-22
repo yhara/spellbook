@@ -1,14 +1,17 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-
+require 'spellbook'
 require 'slop'
 
 module SpellBook
 
   @@opts = Slop.parse(:help => true) do
-    on 'p', 'port', true, :as => :integer
-    on 'e', 'environment', true
-
+    on 'p', 'port',
+      'Specify port number (default: 3017)', true, :as => :integer
+    on      'data',
+      'Specify path of data file (default: ~/.spellbook.db)', true
+    on 'e', 'environment',
+      'Specify Sinatra env (default: production)', true
     on 'v', 'version', 'Print the version' do
       puts "Spellbook version #{SpellBook::VERSION}"
       exit
@@ -21,5 +24,5 @@ module SpellBook
   
 end
 
-require 'spellbook'
+require 'spellbook/server'
 SpellBook::Server.run! :host => 'localhost'

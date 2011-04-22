@@ -11,17 +11,20 @@ module SpellBook
 
   class Server < Sinatra::Base
     use Rack::MethodOverride
-    register Sinatra::ActiveRecordExtension
 
     cattr_accessor :processes
 
     configure do
       set :port, SpellBook.opts[:port] || 3017
       set :environment, SpellBook.opts[:environment] || "production"
+
+      set :views, SpellBook.path_to("lib/spellbook/views/")
+      Server.processes = {}
     end
 
     configure :test do
       set :database_path, SpellBook.path_to("db/test.db")
+      ActiveRecord::Base.logger.level = 4
     end
 
     configure :development do
@@ -34,15 +37,23 @@ module SpellBook
 
     configure :production do
       set :database_path, File.expand_path("~/.spellbook.db")
+      ActiveRecord::Base.logger.level = 4
     end
 
     configure do
-      set :views, SpellBook.path_to("lib/spellbook/views/")
+      path = File.expand_path(SpellBook.opts[:data] ||
+                              settings.database_path)
 
-      set :database, "sqlite:/#{settings.database_path}"
+      ActiveRecord::Base.establish_connection(
+        :adapter => "sqlite3",
+        :database => path,
+      )
+      ActiveRecord::Migrator.migrate(SpellBook.path_to('db/migrate'))
 
-      if settings.environment == "production"
-        ActiveRecord::Migrator.migrate(SpellBook.path_to('db/migrate'))
+      if settings.environment != "test"
+        puts "Spellbook version #{SpellBook::VERSION}"
+        puts "database: #{path}"
+        puts
 
         if App.count == 0
           puts "Registering sample app.."
@@ -55,8 +66,6 @@ module SpellBook
           )
         end
       end
-
-      Server.processes = {}
     end
 
     helpers do
