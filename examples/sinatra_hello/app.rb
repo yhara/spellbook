@@ -46,6 +46,7 @@ __END__
     <style>
       body { margin-left: 20%; margin-right: 20%; }
       .box { border: 1px solid gray; padding: 1em; }
+      .dice { font-size: x-large; }
       dt { font-weight: bold; }
     </style>
     </head>
@@ -61,7 +62,7 @@ __END__
   </html>
 
 @@index
-  <p>
+  <p class="dice">
   [
     <% if @dice == 1 %>
       <font color="red">1</font>
