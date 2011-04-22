@@ -175,7 +175,18 @@ module SpellBook
       app = find_app(params[:name])
 
       if app
-        SpellBook::Proxy.new(app.port).call(request.env)
+        n = 0
+        begin
+          SpellBook::Proxy.new(app.port).call(request.env)
+        rescue Errno::ECONNREFUSED => e
+          if n < 10
+            n += 1
+            sleep 1
+            retry
+          else
+            raise e
+          end
+        end
       else
         pass  # shows sinatra's default error page
       end

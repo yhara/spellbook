@@ -10,7 +10,6 @@ low
 - 2 edit options manually
 
 lower
-- handle Errno::ECONNREFUSED
 
 lowest
 - 1 move lib/spellbook/views to views/
