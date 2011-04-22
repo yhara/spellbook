@@ -1,3 +1,4 @@
+require 'tempfile'
 require 'sinatra/base'
 require 'slim'
 require 'childprocess'
@@ -139,8 +140,18 @@ module SpellBook
                                    "--prefix", "/#{app.name}")
       Server.processes[app.id] = process
 
-      process.io.inherit!
+      tempfile = Tempfile.new("spellbook")
+      process.io.stdout = tempfile
+      process.io.stderr = tempfile
+
       process.start
+
+      sleep 1
+
+      if process.exited?
+        tempfile.close
+        raise "failed to start `#{app.name}':\n\n#{File.read tempfile.path}"
+      end
 
       redirect "/spellbook/apps/"
     end

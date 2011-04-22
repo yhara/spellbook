@@ -1,21 +1,20 @@
+
 high
-- 1 option to specify ~/spellbook.db
 
 middle 
-- better css
-- 2 inhibit editing while app is running?
 
 low
 - 2 prettier sample app
 - 2 generate random port number
 - 2 delete app
+  - running app shall not be deleted
+- 3 show app logs
+- 2 edit options manually
 
 lower
-- 3 surpress ActiveRecord logs
-- 3 show app logs
+- handle Errno::ECONNREFUSED
 
 lowest
-- better error message
 - 1 move lib/spellbook/views to views/
 - 2 dry up #new and #edit
 - 1 rename to Spellbook?
