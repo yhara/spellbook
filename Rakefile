@@ -1,9 +1,3 @@
-# http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
-begin
-  require 'psych'
-rescue LoadError
-end
-
 require 'sinatra/activerecord'
 require 'sinatra/activerecord/rake'
 
@@ -15,29 +9,5 @@ end
 #
 # Rakefile to creating gems
 #
-# configurations:
-PROJECT_NAME = File.basename(File.dirname(__FILE__))
-
-require 'jeweler'
-
-Jeweler::Tasks.new do |gemspec|
-  gemspec.name = "#{PROJECT_NAME}"
-  gemspec.summary = "Launcher for browser-based desktop applications "
-  gemspec.email = "yutaka.hara/at/gmail.com"
-  gemspec.homepage = "http://github.com/yhara/#{PROJECT_NAME}"
-  gemspec.description = gemspec.summary
-  gemspec.authors = ["Yutaka HARA"]
-  gemspec.add_dependency('sinatra', '>= 1.2')
-  gemspec.add_dependency('sinatra-activerecord', '= 0.1.3')
-  gemspec.add_dependency('activerecord')
-  gemspec.add_dependency('sqlite3')
-  gemspec.add_dependency('slim')
-  gemspec.add_dependency('sass')
-  gemspec.add_dependency('rack-proxy')
-  gemspec.add_dependency('childprocess')
-  gemspec.add_development_dependency('rspec', '>= 2.0')
-  gemspec.add_development_dependency('sinatra-reloader')
-  gemspec.add_development_dependency('thin')
-  gemspec.executables = ["spellbook"]
-end
-
+require 'bundler'
+Bundler::GemHelper.install_tasks
