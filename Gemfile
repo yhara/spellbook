@@ -2,10 +2,12 @@ source 'http://rubygems.org'
 
 gem 'sinatra', '>= 1.2'
 gem 'sinatra-activerecord', '0.1.3'
+gem 'activerecord', '>= 3.0'
 gem 'slim'
 gem 'sass'
 gem 'childprocess'
 gem 'slop'
+gem 'rack-proxy'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -19,6 +21,8 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'rack-test'
+  gem 'capybara'
 end
 
 # Use unicorn as the web server

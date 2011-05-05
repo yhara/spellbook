@@ -29,9 +29,11 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.authors = ["Yutaka HARA"]
   gemspec.add_dependency('sinatra', '>= 1.2')
   gemspec.add_dependency('sinatra-activerecord', '= 0.1.3')
+  gemspec.add_dependency('activerecord')
   gemspec.add_dependency('sqlite3')
   gemspec.add_dependency('slim')
   gemspec.add_dependency('sass')
+  gemspec.add_dependency('rack-proxy')
   gemspec.add_dependency('childprocess')
   gemspec.add_development_dependency('rspec', '>= 2.0')
   gemspec.add_development_dependency('sinatra-reloader')
