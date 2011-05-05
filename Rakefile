@@ -1,4 +1,9 @@
-require 'psych' # http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
+# http://stackoverflow.com/questions/4932881/gemcutter-rake-build-now-throws-undefined-method-write-for-syckemitter
+begin
+  require 'psych'
+rescue LoadError
+end
+
 require 'sinatra/activerecord'
 require 'sinatra/activerecord/rake'
 

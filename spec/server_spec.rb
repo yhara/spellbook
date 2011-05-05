@@ -70,7 +70,7 @@ describe "Spellbook::Server" do
       @app = App.new(
         :name => "someapp",
         :port => 12345,
-        :command => "ruby someapp.rb",
+        :command => "ruby someapp.rb"
       )
     end
 

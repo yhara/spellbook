@@ -47,7 +47,7 @@ module SpellBook
 
       ActiveRecord::Base.establish_connection(
         :adapter => "sqlite3",
-        :database => path,
+        :database => path
       )
       ActiveRecord::Migrator.migrate(SpellBook.path_to('db/migrate'))
 
@@ -139,9 +139,12 @@ module SpellBook
     get '/spellbook/apps/:name/start' do
       app = find_app(params[:name])
 
-      process = ChildProcess.build(*app.command.split, 
-                                   "--port", app.port.to_s,
-                                   "--prefix", "/#{app.name}")
+      cmd = app.command.split + [ 
+        "--port", app.port.to_s,
+        "--prefix", "/#{app.name}"
+      ]
+      process = ChildProcess.build(*cmd)
+
       Server.processes[app.id] = process
 
       tempfile = Tempfile.new("spellbook")
