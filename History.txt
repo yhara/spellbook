@@ -1,0 +1,9 @@
+version 0.2.1 - May 6, 2011
+
+  * fix: installation issue
+  * fix: did not work with Ruby 1.8
+  * fix: proxy failed on other than localhost
+
+version 0.2.0 - Apr 22, 2011
+
+  * first release
