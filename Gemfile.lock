@@ -98,7 +98,7 @@ DEPENDENCIES
   childprocess
   rack-proxy
   rack-test
-  rspec
+  rspec (>= 2.0)
   sass
   sinatra (>= 1.2)
   sinatra-activerecord (= 0.1.3)
