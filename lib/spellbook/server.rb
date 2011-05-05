@@ -1,6 +1,7 @@
 require 'tempfile'
 require 'sinatra/base'
 require 'slim'
+require 'sass'
 require 'childprocess'
 
 module SpellBook
