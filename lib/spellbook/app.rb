@@ -4,11 +4,15 @@ module SpellBook
     validates_uniqueness_of :name, :port
     validates_numericality_of :port
 
+    def proxy?
+      self.proxy
+    end
+
     def url
-      if self.proxy
+      if self.proxy?
         "/#{self.name}/"
       else
-        "http://localhost:#{self.port}/#{self.name}/"
+        "http://localhost:#{self.port}"
       end
     end
   end
