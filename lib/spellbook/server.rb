@@ -140,10 +140,13 @@ module SpellBook
     get '/spellbook/apps/:name/start' do
       app = find_app(params[:name])
 
-      cmd = app.command.split + [ 
-        "--port", app.port.to_s,
-        "--prefix", "/#{app.name}"
-      ]
+      cmd = app.command.split
+      if app.proxy?
+        cmd += [ 
+          "--port", app.port.to_s,
+          "--prefix", "/#{app.name}"
+        ]
+      end
       process = ChildProcess.build(*cmd)
 
       Server.processes[app.id] = process
