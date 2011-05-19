@@ -155,6 +155,7 @@ module SpellBook
       process.io.stdout = tempfile
       process.io.stderr = tempfile
 
+      puts "starting app: #{cmd.join(' ')}"
       process.start
 
       sleep 1
