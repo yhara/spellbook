@@ -1,9 +1,14 @@
-version 0.2.2 - May 6, 2011
+version 0.2.3 - 2011/05/19
+
+  * fix: proxy failed when accessed from other than localhost
+  * fix: do not append --port and --prefix when 'proxy' is unchecked
+
+version 0.2.2 - 2011/05/06
 
   * fix: installation issue
   * fix: did not work with Ruby 1.8
   * fix: proxy failed on other than localhost
 
-version 0.2.0 - Apr 22, 2011
+version 0.2.0 - 2011/04/22
 
   * first release
