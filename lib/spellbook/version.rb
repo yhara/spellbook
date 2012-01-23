@@ -1,4 +1,4 @@
 module SpellBook
-  VERSION = File.read(File.expand_path("../../VERSION", File.dirname(__FILE__)))
+  VERSION = "0.2.4"
 end
 
