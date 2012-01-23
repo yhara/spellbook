@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'sinatra', '>= 1.2'
-gem 'sinatra-activerecord', '0.1.3'
-gem 'activerecord', '>= 3.0'
-gem 'slim'
+gem 'sinatra', '~> 1'
+gem 'sinatra-activerecord'
+gem 'activerecord', '~> 3'
+gem 'slim', '~> 1'
 gem 'sass'
 gem 'childprocess'
 gem 'slop'

@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sinatra', '>= 1.2')
   s.add_dependency('sinatra-activerecord', '= 0.1.3')
   s.add_dependency('sqlite3')
-  s.add_dependency('slim')
+  s.add_dependency('slim', '~> 1.0.3')
   s.add_dependency('slop')
   s.add_dependency('sass')
   s.add_dependency('rack-proxy')
